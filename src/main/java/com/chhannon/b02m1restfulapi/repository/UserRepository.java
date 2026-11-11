@@ -1,26 +1,44 @@
 package com.chhannon.b02m1restfulapi.repository;
 
 
-import com.chhannon.b02m1restfulapi.dto.UserResponse;
+
 import com.chhannon.b02m1restfulapi.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
 public class UserRepository {
-    private List<User> users;
 
-    public UserRepository(){
-     users = List.of(
-             new User(UUID.randomUUID(), "kaka", "12345", "kdey kaka", true),
-        new User(UUID.randomUUID(), "koka", "23456", "kdey koka", true)
-     );
+    private final List<User> users;
 
+    public UserRepository() {
+        User user1 = new User(UUID.randomUUID(), "admin", "qwer", "Administrator", true);
+        User user2 = new User(UUID.randomUUID(), "editor", "qwer", "Editor", true);
+        User user3 = new User(UUID.randomUUID(), "customer", "qwer", "Chan Dara", true);
+        users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
     }
 
-    public List<User> selectAll(){
+    public List<User> selectAll() {
         return users;
     }
+
+    public void insertOne(User user) {
+        users.add(user);
+    }
+
+    public void deleteOne(UUID id) {
+        users.removeIf(user -> user.getId().equals(id));
+    }
+
+    public boolean checkById(UUID id) {
+        return users.stream()
+                .anyMatch(user -> user.getId().equals(id));
+    }
+
 }
